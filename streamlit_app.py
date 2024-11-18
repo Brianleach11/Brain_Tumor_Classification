@@ -179,7 +179,7 @@ def download_models():
 # Streamlit UI
 st.title("Brain Tumor Classification")
 st.write("Upload an MRI scan to classify whether it contains a brain tumor.")
-
+cnn_path, xception_path = download_models()
 uploaded_file = st.file_uploader("Choose an MRI scan...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
@@ -190,11 +190,9 @@ if uploaded_file is not None:
     )
     
     if selected_model == "Transfer Learning - Xception":
-        cnn_path, xception_path = download_models()
         model = load_xception_model(xception_path)
         img_size = (299,299)
     else:
-        cnn_path, xception_path = download_models()
         model = load_model(cnn_path)
         img_size = (224,224)
 
