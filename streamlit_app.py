@@ -10,9 +10,11 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.optimizers import Adamax
 from tensorflow.keras.metrics import Precision, Recall
 import google.generativeai as genai
+from google.colab import userdata
 import PIL.Image
 import os
 from dotenv import load_dotenv
+import gdown
 load_dotenv()
 
 if "GOOGLE_API_KEY" in os.environ:
@@ -152,6 +154,28 @@ def generate_confidence_graph(predictions):
     # Convert to image for Streamlit
     return fig
 
+def download_models():
+    # Create a models directory in the Streamlit environment
+    os.makedirs('models', exist_ok=True)
+    
+    cnn_id = "YOUR_CNN_MODEL_FILE_ID"
+    xception_id = "YOUR_XCEPTION_MODEL_FILE_ID"
+    
+    cnn_path = 'models/cnn_model.h5'
+    xception_path = 'models/xception_model.weights.h5'
+    
+    if not os.path.exists(cnn_path):
+        with st.spinner('Downloading CNN model...'):
+            url = f"https://drive.google.com/uc?id={cnn_id}"
+            gdown.download(url, cnn_path, quiet=False)
+    
+    if not os.path.exists(xception_path):
+        with st.spinner('Downloading Xception model...'):
+            url = f"https://drive.google.com/uc?id={xception_id}"
+            gdown.download(url, xception_path, quiet=False)
+            
+    return cnn_path, xception_path
+
 # Streamlit UI
 st.title("Brain Tumor Classification")
 st.write("Upload an MRI scan to classify whether it contains a brain tumor.")
@@ -166,10 +190,12 @@ if uploaded_file is not None:
     )
     
     if selected_model == "Transfer Learning - Xception":
-        model = load_xception_model('xception_model.weights.h5')
+        cnn_path, xception_path = download_models()
+        model = load_xception_model(xception_path)
         img_size = (299,299)
     else:
-        model = load_model('cnn_model.h5')
+        cnn_path, xception_path = download_models()
+        model = load_model(cnn_path)
         img_size = (224,224)
 
     labels = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
