@@ -10,7 +10,6 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.optimizers import Adamax
 from tensorflow.keras.metrics import Precision, Recall
 import google.generativeai as genai
-from google.colab import userdata
 import PIL.Image
 import os
 from dotenv import load_dotenv
