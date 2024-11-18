@@ -88,7 +88,7 @@ def generate_saliency_map(model, img_array, class_index, img_size):
     heatmap = cv2.cvtColor(heatmap, cv2.COLOR_BGR2RGB)
     heatmap = cv2.resize(heatmap, img_size)
 
-    original_img = image.image_to_array(img)
+    original_img = image.img_to_array(img)
     superimposed_img = heatmap * 0.7 + original_img * 0.3
     superimposed_img = superimposed_img.astype(np.uint8)
 
