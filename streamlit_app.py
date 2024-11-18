@@ -208,10 +208,10 @@ if uploaded_file is not None:
     class_index = np.argmax(prediction[0])
     result = labels[class_index]
 
-    st.write(f"Predicted Class: {result}")
-    st.write("Predictions:")
-    for label, prob in zip(labels, prediction[0]):
-        st.write(f"{label}: {prob:.4f}")
+    if result == 'No Tumor':
+        st.write(f"## No Tumor Detected")
+    else:
+        st.write(f"## Tumor Detected: {result}")
 
     saliency_map = generate_saliency_map(model, img_array, class_index, img_size)
 
