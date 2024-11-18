@@ -157,8 +157,8 @@ def download_models():
     # Create a models directory in the Streamlit environment
     os.makedirs('models', exist_ok=True)
     
-    cnn_id = "YOUR_CNN_MODEL_FILE_ID"
-    xception_id = "YOUR_XCEPTION_MODEL_FILE_ID"
+    cnn_id = "1x9t4iiOryE2jNJ8OCcWgkbNe17YXlPnU"
+    xception_id = "10tcxflFgOtgrTXDR_fMj_3Dr4oM_rbsm"
     
     cnn_path = 'models/cnn_model.h5'
     xception_path = 'models/xception_model.weights.h5'
