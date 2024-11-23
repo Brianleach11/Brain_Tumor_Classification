@@ -220,6 +220,15 @@ if uploaded_file is not None:
         st.image(uploaded_file, caption='Uploaded Image', use_column_width=True)
     with col2:
         st.image(saliency_map, caption='Saliency Map', use_column_width=True)
+        # Add download button for saliency map
+        saliency_map_path = f'saliency_maps/{uploaded_file.name}'
+        with open(saliency_map_path, "rb") as file:
+            btn = st.download_button(
+                label="Download Saliency Map",
+                data=file,
+                file_name=f"saliency_map_{uploaded_file.name}",
+                mime="image/jpeg"
+            )
 
     confidence_graph = generate_confidence_graph(prediction[0])
     st.plotly_chart(confidence_graph, use_container_width=True)
